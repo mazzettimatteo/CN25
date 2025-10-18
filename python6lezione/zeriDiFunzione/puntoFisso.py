@@ -32,10 +32,11 @@ def puntoFisso(f,g,x0,t1,t2,M):
     cont=0
     while( np.abs(f(x0))>t1 and cont<M):    
         """
-        tre condizioni di terminazione possibili:
+        quattro condizioni di terminazione possibili:
           su g abs(x_k-g(x_k))<t 
           su f abs(f(x_k))<t    <--usiamo questa
           su x abs(x_k+1 - x_k)<t   <--e questa
+          numero iterazioni     <--e pure questa
         """
         xNew=g(x0)
         delta=np.abs(x0-xNew)
