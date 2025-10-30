@@ -19,9 +19,6 @@ def newton(f,Df,x0,t1,t2,N,a,b):
     plt.plot(x,f(x))
     plt.plot(x,xAxis)
 
-    
-    #errorestimate=1
-    #functionestimate=1
     cont=0
     while (np.abs(f(x0))>t1 and cont<N):
         fx0=f(x0)
@@ -36,8 +33,7 @@ def newton(f,Df,x0,t1,t2,N,a,b):
         if(delta<t2): 
             break
         x0 = xNew
-        #errorestimate=abs(fx0/Dfx0)
-        #functionestimate=abs(fx0)
+        
         cont+=1
     plt.grid()
     plt.show()
