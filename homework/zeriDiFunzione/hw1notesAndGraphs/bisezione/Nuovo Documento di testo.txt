@@ -1,0 +1,12 @@
+bisezione: usa f1primoBis, f2primoBis, f3primoBis, f3secondoBis, f4primoBis
+primo: maxIter=50, toll=1.e-10
+f1: a=0 b=0.5 x*=0, f(x*)=0.0, iters=0
+f2: a=-1.5 b=0 x*=-0.8241323122638278, f(x*)=-9.217926422167011e-11, iters=32
+f3:a=-1 b=1.5 x*=5.820766091346741e-11, f(x*)=2.9103830456733704e-11, iters=32
+f4: a=0, b=1.5 x*=0.6190612867358141, f(x*)=1.496580637194711e-13, iters=32
+
+secondo: maxIter=50, toll=1.e-10
+f1: a=-.5, b=0 x*=0, f(x*)=0.0, iters=0 NON USATO
+f2: a=0, b=1.5 x*=0.8241323122638278, f(x*)=-9.217926422167011e-11, iters=32 NON USATO
+f3: a=1.5 b=2.5 x*=1.8954942671116441, f(x*)=-6.360789672754663e-11, iters=31	ZERO DIVERSO ###
+f4: a=-0.5 b=1 x*=0.6190612867940217, f(x*)=-6.637090876893126e-11, iters=30 NON USATO
