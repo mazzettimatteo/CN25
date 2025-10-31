@@ -39,8 +39,8 @@ def newton(f,Df,x0,t1,t2,N,a,b):
     plt.show()
     return(x0,fx0,cont)
 
-iter=10
-t=1.e-6
+iter=500
+t=1.e-12
 
-(x,val,it)=newton(f4,df4,0.2,t,t,iter,-3,3)
+(x,val,it)=newton(f4,df4,1,t,t,iter,-2,2)
 print(f"x*={x}, f(x*)={val}, iters={it}")
