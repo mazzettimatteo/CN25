@@ -23,8 +23,12 @@ def bisezione(f,a,b,N,t):
     if(f(a)*f(b)>0):
         raise ValueError("f(a)*f(b)>0")
 
-    if(np.abs(f(a))<t): return (a,f(a),i)
-    elif(np.abs(f(b))<t): return (b,f(b),i)
+    if(np.abs(f(a))<t):
+        plt.plot(a,np.abs(f(a)),'.',color='r')
+        return (a,f(a),i)
+    elif(np.abs(f(b))<t):
+        plt.plot(b,np.abs(f(b)),'.',color='r')
+        return (b,f(b),i)
     
     for i in range(N):
         c=(a+b)/2
@@ -42,13 +46,13 @@ def bisezione(f,a,b,N,t):
     plt.show()
     return (c,f(c),i)
 
-(x,val,it)=bisezione(f4,0,1.5,iter,toll)
+(x,val,it)=bisezione(f1,0,0.5,iter,toll)
 print(f"x*={x}, f(x*)={val}, iters={it}")
 plt.grid()
 plt.show()
+
+
 ###funzione da ricopiare in pdf
-
-
 """
 def bisezione(f,a,b,maxIt,t):
     i=0
