@@ -44,3 +44,24 @@ t=1.e-12
 
 (x,val,it)=newton(f4,df4,1,t,t,iter,-2,2)
 print(f"x*={x}, f(x*)={val}, iters={it}")
+
+###funzione da ricopiare
+def newton(f,Df,x0,t1,t2,N,a,b):
+
+    cont=0
+    while (np.abs(f(x0))>t1 and cont<N):
+        fx0=f(x0)
+        Dfx0=Df(x0)
+
+        
+        xNew = x0 - fx0/Dfx0
+       
+        
+        delta=np.abs(x0-xNew)
+        if(delta<t2): 
+            break
+        x0 = xNew
+        
+        cont+=1
+ 
+    return(x0,fx0,cont)
