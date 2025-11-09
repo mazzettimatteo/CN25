@@ -1,0 +1,13 @@
+GD(f,grad, x0,alpha, maxIt, fToll, xToll, alphaConst) -> (x0,f(x0),cont,alphaConst,alpha) in genere xT=1.e-5 fT=1.e-6 e maxIt=10000
+
+a) 
+1) GD(funA, gradA, (7,-1), 1, maxIt, fT, xT, False) -> (array([5., 2.]), np.float64(0.0), 1, False, 0.5)
+2) GD(funA, gradA, (7,-1), 0.001, maxIt, fT, xT, True) -> (array([5.00276853, 1.9958472 ]), np.float64(2.491052370848344e-05), 3288, True, 0.001)
+3) GD(funA, gradA, (5,0), 0.001, maxIt, fT, xT, True) -> (array([5.        , 1.99500265]), np.float64(2.4973541699900752e-05), 2993, True, 0.001)
+4) GD(funA, gradA, (-100,100), 15, maxIt, fT, xT, False) -> (array([5., 2.]), np.float64(0.0), 1, False, 0.5)
+
+b)
+1) GD(funB, gradB, (0,2), 0.01, maxIt, fT, xT, True) -> overflow
+2) GD(funB, gradB, (0,2), 0.005, maxIt, fT, xT, True) -> (array([0.53419238, 0.21465105]), np.float64(0.7169736034126697), 10000, True, 0.005) termina per iterazioni anche con maxIt=30000 e 100000
+3) GD(funB, gradB, (0,2), 0.001, maxIt, fT, xT, True) -> (array([0.98892228, 0.97792265]), np.float64(0.0001229150422919122), 8270, True, 0.001)
+4) GD(funB, gradB, (0,2), 0.001, maxIt, fT, xT, False) -> (array([0.99616119, 0.99231348]), np.float64(1.4792320012593029e-05), 4375, False, 0.001953125)
