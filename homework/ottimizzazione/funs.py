@@ -31,8 +31,9 @@ def gradB(vector):
 
 
 #----------------------------------------------funz D
-def funAndGradD(x,n):
+def D(wantF,x):
     #n must be x lenght
+    n=len(x)
     A=np.random.random((n,n))
     oneVect=np.ones(n)
     b=A @ oneVect
@@ -41,16 +42,23 @@ def funAndGradD(x,n):
     funz=0.5*(np.linalg.norm(normContent)**2)
     grad=A.T @ ((A @ x) - b)
 
-    return (funz,grad)
+    output=funz if wantF else grad
+    return output
+
+
+
+
 
 
 
 #-----------------------------------------funzF
-def funF(x,n):
+def funF(x):
+    n=len(x)
     #x must contasin only positive nums
     i=np.arange(1,n)
     funz=sum((x-i)**2) - sum(np.log((x-i)))
-def gradF(x,n):
+def gradF(x):
+    n=len(x)
     i=np.arange(1,n)
     return 2*(x-i)-(1/x)
 """

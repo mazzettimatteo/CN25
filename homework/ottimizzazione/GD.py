@@ -32,12 +32,35 @@ def graph2Diters(x, y, z,traj):
     ax.legend()
     ax.axis('equal')
     plt.show()
-
 def backtrackingFun(f,df,x,alpha=1,rho=0.5,c=1.e-4):
     while f(x-alpha*df(x))>f(x)-c*alpha*(np.linalg.norm(df(x))**2):
         alpha*=rho
     return alpha
+def graphValsF(funVals, iters):
+    funVals = np.array(funVals)
+    
+    plt.figure(figsize=(6,4))
+    plt.plot(range(iters), funVals[:iters], '.', color='blue', label='f(x)',markersize=2)
 
+    plt.xlabel("Iterazioni")
+    plt.ylabel("Valore")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+def graphValsDF(gradVals, iters):
+    
+    gradNorms = np.array([np.linalg.norm(g) for g in gradVals])  # norma dei gradienti
+
+    plt.figure(figsize=(6,4))
+    plt.plot(range(iters), gradNorms[:iters], '.', color='green', label='||∇f(x)||',markersize=2)
+
+    plt.xlabel("Iterazioni")
+    plt.ylabel("Valore")
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
 def GD(f,df,x0,alpha,maxIt,fToll,xToll,alphaConst):    #f:R^n->R
     cont=0
     n=len(x0)
@@ -64,33 +87,71 @@ def GD(f,df,x0,alpha,maxIt,fToll,xToll,alphaConst):    #f:R^n->R
     return x0,f(x0),cont,alphaConst,alpha,allIters,fVals,dfVals    
 #p.to di minimo, val di minimo, iterazioni fatte, alfaConst,alfa,traj[],fVals[],dfVals[]
 
-def graphVals(funVals, gradVals, iters):
-    funVals = np.array(funVals)
-    gradNorms = np.array([np.linalg.norm(g) for g in gradVals])  # norma dei gradienti
-
-    plt.figure(figsize=(6,4))
-    plt.plot(range(iters), funVals[:iters], '.', color='blue', label='f(x)',markersize=2)
-    plt.plot(range(iters), gradNorms[:iters], '.', color='green', label='||∇f(x)||',markersize=2)
-
-    plt.xlabel("Iterazioni")
-    plt.ylabel("Valore")
-    plt.legend()
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()
-
-
 maxIt=10000
 fT=1.e-6
 xT=1.e-5
 
+#funzione D
+def make_D(A):
+    def D(wantF, x):
+        n=len(x)
+        oneVect=np.ones(n)
+        b=A @ oneVect
 
+        normContent=(A @ x)-b
 
-(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(myFun.funA, myFun.gradA, (7,-1), 0.001, maxIt, fT, xT, True)
+        funz=0.5*(np.linalg.norm(normContent)**2)
+        grad=A.T @ ((A @ x) - b)
+
+        return funz if wantF else grad
+    return D
+
+n = 5
+A = np.random.rand(n,n)
+Dfun = make_D(A)
+
+fD  = lambda x: Dfun(True,  x)
+dfD = lambda x: Dfun(False, x)
+
+x0rand = np.random.randn(n)
+print(f"matrice A:{A}")
+print(f"x0rand: {x0rand}")
+
+print("-----------------------------------------------")
+
+(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fD,dfD, x0rand, 0.001, maxIt, fT, xT, False)
 res=(xMin, val, iters,alphaWasConst,a)
 print(f"{res}")
 
-graph2Diters(myFun.XA, myFun.YA, myFun.ZA, allIt)
-graph3Diters(myFun.XA, myFun.YA, myFun.ZA, allIt, myFun.funA)
-graphVals(fArray,dfArray,iters)
+graphValsF(fArray,iters)
+graphValsDF(dfArray,iters)
+
+
+print("-----------------------------------------------")
+(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fD,dfD, x0rand, 0.001, maxIt, fT, xT, True)
+res=(xMin, val, iters,alphaWasConst,a)
+print(f"{res}")
+graphValsF(fArray,iters)
+graphValsDF(dfArray,iters)
+
+print("-----------------------------------------------")
+(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fD,dfD, x0rand, 0.005, maxIt, fT, xT, True)
+res=(xMin, val, iters,alphaWasConst,a)
+print(f"{res}")
+graphValsF(fArray,iters)
+graphValsDF(dfArray,iters)
+
+print("-----------------------------------------------")
+x0rand = np.random.randn(n)
+print(f"nuovo x0rand: {x0rand}")
+(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fD,dfD, x0rand, 0.001, maxIt, fT, xT, False)
+res=(xMin, val, iters,alphaWasConst,a)
+print(f"{res}")
+graphValsF(fArray,iters)
+graphValsDF(dfArray,iters)
+
+
+
+#graph2Diters(myFun.XA, myFun.YA, myFun.ZA, allIt)
+#graph3Diters(myFun.XA, myFun.YA, myFun.ZA, allIt, myFun.funA)
 
