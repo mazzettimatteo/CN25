@@ -53,14 +53,24 @@ def D(wantF,x):
 
 #-----------------------------------------funzF
 def funF(x):
-    n=len(x)
-    #x must contasin only positive nums
-    i=np.arange(1,n)
-    funz=sum((x-i)**2) - sum(np.log((x-i)))
+    n = len(x)
+    idx = np.arange(1, n+1)         # 1,2,...,n  (same length as x)
+    if np.any(x - idx <= 0):
+        return np.inf               # outside domain → reject
+    return np.sum((x - idx)**2) - np.sum(np.log(x - idx))
+
+
 def gradF(x):
-    n=len(x)
-    i=np.arange(1,n)
-    return 2*(x-i)-(1/x)
+    n = len(x)
+    idx = np.arange(1, n+1)
+    if np.any(x - idx <= 0):
+        raise ValueError("Gradient undefined: x_k must be > k")
+    return 2*(x - idx) - 1/(x - idx)
+
+f  = lambda x: funF(x)
+df = lambda x: gradF(x)
+
+x0 = np.array([2., 3., 4., 5.]) # must satisfy x0[k] > k+1
 """
 def stocGradF(x,n):
     """

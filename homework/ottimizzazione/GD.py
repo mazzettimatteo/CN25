@@ -40,7 +40,7 @@ def graphValsF(funVals, iters):
     funVals = np.array(funVals)
     
     plt.figure(figsize=(6,4))
-    plt.plot(range(iters), funVals[:iters], '.', color='blue', label='f(x)',markersize=2)
+    plt.plot(range(iters), funVals[:iters], '.', color='blue', label='f(x)')
 
     plt.xlabel("Iterazioni")
     plt.ylabel("Valore")
@@ -53,7 +53,7 @@ def graphValsDF(gradVals, iters):
     gradNorms = np.array([np.linalg.norm(g) for g in gradVals])  # norma dei gradienti
 
     plt.figure(figsize=(6,4))
-    plt.plot(range(iters), gradNorms[:iters], '.', color='green', label='||∇f(x)||',markersize=2)
+    plt.plot(range(iters), gradNorms[:iters], '.', color='green', label='||∇f(x)||')
 
     plt.xlabel("Iterazioni")
     plt.ylabel("Valore")
@@ -91,67 +91,65 @@ maxIt=10000
 fT=1.e-6
 xT=1.e-5
 
-#funzione D
-def make_D(A):
-    def D(wantF, x):
-        n=len(x)
-        oneVect=np.ones(n)
-        b=A @ oneVect
+def funF(x):
+    n = len(x)
+    idx=[]
+    for j in range(1,n+1): idx.append(j)
+    idx = np.array(idx)         # 1,2,...,n  (same length as x)
+    if np.any(x - idx <= 0):
+        return np.inf               # outside domain → reject
+    return np.sum((x - idx)**2) - np.sum(np.log(x))
 
-        normContent=(A @ x)-b
 
-        funz=0.5*(np.linalg.norm(normContent)**2)
-        grad=A.T @ ((A @ x) - b)
+def gradF(x):
+    n = len(x)
+    idx=[]
+    for j in range(1,n+1): idx.append(j)
+    idx = np.array(idx)
+    if np.any(x - idx <= 0):
+        raise ValueError("Gradient undefined: x_k must be > k")
+    return 2*(x - idx) - 1/(x)
 
-        return funz if wantF else grad
-    return D
+fF  = lambda x: funF(x)
+dfF = lambda x: gradF(x)
 
-n = 5
-A = np.random.rand(n,n)
-Dfun = make_D(A)
 
-fD  = lambda x: Dfun(True,  x)
-dfD = lambda x: Dfun(False, x)
 
-x0rand = np.random.randn(n)
-print(f"matrice A:{A}")
-print(f"x0rand: {x0rand}")
+#xStar=(1.3660254,2.2247449,3.1583124,4.1213204,5.0980762)
 
-print("-----------------------------------------------")
-
-(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fD,dfD, x0rand, 0.001, maxIt, fT, xT, False)
+x0 = np.array([1.1,2.1,3.1,4.1,5.1]) # must satisfy x0[k] > k+1
+(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fF,dfF, x0, 0.001, maxIt, fT, xT, False)
 res=(xMin, val, iters,alphaWasConst,a)
 print(f"{res}")
 
 graphValsF(fArray,iters)
 graphValsDF(dfArray,iters)
 
+print("---------------------------------------------------")
 
-print("-----------------------------------------------")
-(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fD,dfD, x0rand, 0.001, maxIt, fT, xT, True)
+(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fF,dfF, x0, 0.001, maxIt, fT, xT, True)
 res=(xMin, val, iters,alphaWasConst,a)
 print(f"{res}")
+
 graphValsF(fArray,iters)
 graphValsDF(dfArray,iters)
 
-print("-----------------------------------------------")
-(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fD,dfD, x0rand, 0.005, maxIt, fT, xT, True)
+print("---------------------------------------------------")
+
+(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fF,dfF, x0, 0.005, maxIt, fT, xT, True)
 res=(xMin, val, iters,alphaWasConst,a)
 print(f"{res}")
+
 graphValsF(fArray,iters)
 graphValsDF(dfArray,iters)
 
-print("-----------------------------------------------")
-x0rand = np.random.randn(n)
-print(f"nuovo x0rand: {x0rand}")
-(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fD,dfD, x0rand, 0.001, maxIt, fT, xT, False)
+print("---------------------------------------------------")
+(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fF,dfF, x0, 0.1, maxIt, fT, xT, True)
 res=(xMin, val, iters,alphaWasConst,a)
 print(f"{res}")
+
 graphValsF(fArray,iters)
 graphValsDF(dfArray,iters)
-
-
-
 #graph2Diters(myFun.XA, myFun.YA, myFun.ZA, allIt)
 #graph3Diters(myFun.XA, myFun.YA, myFun.ZA, allIt, myFun.funA)
 
