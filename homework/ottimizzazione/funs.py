@@ -46,11 +46,6 @@ def D(wantF,x):
     return output
 
 
-
-
-
-
-
 #-----------------------------------------funzF
 def funF(x):
     n = len(x)
@@ -71,6 +66,29 @@ f  = lambda x: funF(x)
 df = lambda x: gradF(x)
 
 x0 = np.array([2., 3., 4., 5.]) # must satisfy x0[k] > k+1
-"""
-def stocGradF(x,n):
-    """
+
+
+
+#-------------------------------------------------funzDstoc
+def makeD(A):
+    b=A@np.ones(A.shape[1])
+
+    def f(x, batch):
+        ABatch=A[batch, :]
+        bBatch=b[batch]
+        residue=ABatch@x - bBatch
+        
+        return 0.5*(np.linalg.norm(residue))**2
+    
+    def df(x, batch):
+        ABatch=A[batch, :]
+        bBatch=b[batch]
+        residue=ABatch@x-bBatch
+
+        return ABatch.T@residue
+    
+    return f,df
+
+Dstoc=makeD(A)
+
+fDstoc,dfDstoc=Dstoc
