@@ -155,25 +155,26 @@ graphValsDF(dfArray,iters)
 #graph2Diters(myFun.XA, myFun.YA, myFun.ZA, allIt)
 #graph3Diters(myFun.XA, myFun.YA, myFun.ZA, allIt, myFun.funA)
 
-"""def SGD (f,df,x0,maxEpoche,maxIt,fToll,xToll,alpha,k):
+
+def SGD (f,df,x0,maxEpoche,fToll,xToll,alpha,k):
     n=len(x0)
-    S_k = np.arange(0,n,1) # Inizializziamo il dataset 
+    S_k = np.arange(0,n,1)
     cont=0
-    batch = S_k[:k]#select the first k indexes
+    batch = S_k[:k]
     dfVals = [np.sum(df(x0, j) for j in batch)]
     dfNorm=np.linalg.norm(dfVals[-1])
     for epoca in range(0,maxEpoche):
-        np.random.shuffle(S_k)  #randomizziamo gli indici del mini-batch
+        np.random.shuffle(S_k) 
         for i in range(0,n,k):
-            batch=S_k[i:i+k]           
+            batch=S_k[i:i+k]
             p=-np.sum([df(x0, j) for j in batch])
             xNew=x0+alpha*p            
             if (np.linalg.norm(xNew-x0)<xToll): 
-                break
+                return x0,f(x0),epoca,cont
             x0=xNew
             cont+=1
             dfVals.append(p)
         dfNorm=np.linalg.norm(dfVals[-1])
         if(dfNorm<fToll):
-            break
-    return x0,f(x0),epoca,cont"""
+            break   
+    return x0,f(x0),epoca,cont

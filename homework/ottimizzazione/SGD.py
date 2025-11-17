@@ -25,23 +25,65 @@ def graphValsDF(gradVals, iters):
     plt.grid(True)
     plt.tight_layout()
     plt.show()
-def graphErrors(erroreRel,cont,n):
+def graphErrors(e1,e2,e3,eGD,cont1,cont2,cont3,contGD):
     n=len(x0)
 
     plt.figure(figsize=(6,4))
-    plt.plot(range(cont), erroreRel[:cont],color="orange",label="Errore relativo")
+    plt.plot(range(cont1), e1[:cont1],label="Test 1")
+    plt.plot(range(cont2), e2[:cont2],label="Test 2")
+    plt.plot(range(cont3), e3[:cont3],label="Test 3")
+    plt.plot(range(contGD), eGD[:contGD],label="GD")#???????????????????????????????????????????????????
+
     plt.legend()
     plt.grid(True)
     plt.tight_layout()
     plt.show()
 
+def backtrackingFun(f,df,x,alpha=1,rho=0.5,c=1.e-4):
+    while f(x-alpha*df(x))>f(x)-c*alpha*(np.linalg.norm(df(x))**2):
+        alpha*=rho
+    return alpha
+def GD(f,df,x0,alpha,maxIt,fToll,xToll,alphaConst):    #f:R^n->R
+    cont=0
+    n=len(x0)
+    dfNorm=np.linalg.norm(df(x0))
+
+    #-------------------------------------------------------------------------------
+    xTrue=0.5*(np.arange(1, n+1)+np.sqrt(np.arange(1, n+1)**2+2))
+    firstErr=np.linalg.norm(x0-xTrue)/np.linalg.norm(xTrue)
+    err=[np.array(firstErr)]
+
+    allIters=[np.array(x0)]
+    fVals=[np.array(f(x0))]
+    dfVals=[np.array(df(x0))]
+
+    while cont<maxIt and dfNorm>fToll:
+        p=-df(x0)
+        alpha=alpha if alphaConst else backtrackingFun(f,df,x0)#backtracking o costante
+        xNew=x0+alpha*p
+        if(np.linalg.norm(xNew-x0)<xToll):
+            break
+        x0=xNew
+
+        temp=np.linalg.norm(x0 - xTrue)/np.linalg.norm(xTrue)#-------------------------------
+        err.append(temp)
+
+        allIters.append(x0.copy())
+        fVals.append(f(x0).copy())
+        dfVals.append(df(x0).copy())
+
+        dfNorm=np.linalg.norm(df(x0))
+        cont+=1
+    return x0,f(x0),cont,alphaConst,alpha,allIters,fVals,dfVals,err    
+
+
 
 def SGD (f,df,x0,maxEpoche,maxIt,fToll,xToll,alpha,k):
     n=len(x0)
-    S_k = np.arange(0,n,1) # Inizializziamo il dataset
+    S_k = np.arange(0,n,1)
     
     cont=0
-    #-------------------------------------------------------------------------------------
+    
     xTrue=0.5*(np.arange(1, n+1)+np.sqrt(np.arange(1, n+1)**2+2))
     firstErr=np.linalg.norm(x0-xTrue)/np.linalg.norm(xTrue)
     err=[np.array(firstErr)]
@@ -49,13 +91,13 @@ def SGD (f,df,x0,maxEpoche,maxIt,fToll,xToll,alpha,k):
     allIters=[np.array(x0)]
     fVals=[np.array(f(x0))] 
     
-    batch = S_k[:k]#select the first k indexes
+    batch = S_k[:k]
     dfVals = [np.sum(df(x0, j) for j in batch)]
 
     dfNorm=np.linalg.norm(dfVals[-1])
 
     for epoca in range(0,maxEpoche):
-        np.random.shuffle(S_k)  #randomizziamo gli indici del mini-batch
+        np.random.shuffle(S_k) 
         for i in range(0,n,k):
             batch=S_k[i:i+k]
             
@@ -63,16 +105,16 @@ def SGD (f,df,x0,maxEpoche,maxIt,fToll,xToll,alpha,k):
 
             xNew=x0+alpha*p            
 
-            if (np.linalg.norm(xNew-x0)<xToll): # Controllo se sto facendo progressi (tolleranza x)
+            if (np.linalg.norm(xNew-x0)<xToll): 
                 print("deltaX>xToll !!!!!!!!!!!!!!!!!!!!!!")
-                break
+                return x0,f(x0),epoca,cont,alpha,allIters,fVals,dfVals,err
             x0=xNew
             cont+=1
 
             allIters.append(x0.copy())
             fVals.append(f(x0).copy())
             dfVals.append(p)
-            #-------------------------------------------------------------------------------------------------
+            
             temp=np.linalg.norm(x0 - xTrue)/np.linalg.norm(xTrue)
             err.append(temp)
 
@@ -113,23 +155,52 @@ maxEp=100
 x0 = np.array([1.1,2.1,3.1,4.1,5.1]) # must satisfy x0[k] > k+1
 
 batchSize=2
-(xMin, val, epoche, iters,a,allIt,fArray,dfArray,Er)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
+(xMin, val, epoche, iters1,a,allIt,fArray,dfArray,Er1)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
 res=(xMin, val,a)
 print(f"{res}")
-print(f"epoche:{epoche}, itersTot={iters}")
-graphErrors(Er,iters,x0)
+print(f"epoche:{epoche}, itersTot={iters1}")
 print("----------------------------------------")
 batchSize=3
-(xMin, val, epoche, iters,a,allIt,fArray,dfArray,Er)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
+(xMin, val, epoche, iters2,a,allIt,fArray,dfArray,Er2)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
 res=(xMin, val,a)
 print(f"{res}")
-print(f"epoche:{epoche}, itersTot={iters}")
-graphErrors(Er,iters,x0)
+print(f"epoche:{epoche}, itersTot={iters2}")
 print("----------------------------------------")
 batchSize=4
-(xMin, val, epoche, iters,a,allIt,fArray,dfArray,Er)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
+(xMin, val, epoche, iters3,a,allIt,fArray,dfArray,Er3)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
 res=(xMin, val,a)
 print(f"{res}")
-print(f"epoche:{epoche}, itersTot={iters}")
-graphErrors(Er,iters,len(x0))
+print(f"epoche:{epoche}, itersTot={iters3}")
 print("----------------------------------------")
+
+
+
+def GDfunF(x):
+    n = len(x)
+    idx=[]
+    for j in range(1,n+1): idx.append(j)
+    idx = np.array(idx)         # 1,2,...,n  (same length as x)
+    if np.any(x - idx <= 0):
+        return np.inf               # outside domain → reject
+    return np.sum((x - idx)**2) - np.sum(np.log(x))
+
+
+def GDgradF(x):
+    n = len(x)
+    idx=[]
+    for j in range(1,n+1): idx.append(j)
+    idx = np.array(idx)
+    if np.any(x - idx <= 0):
+        raise ValueError("Gradient undefined: x_k must be > k")
+    return 2*(x - idx) - 1/(x)
+
+fGD  = lambda x: GDfunF(x)
+dfGD = lambda x: GDgradF(x)
+
+print("------------------------------GD------------------------------")
+(xMin, val, itersGD,alphaWasConst,a,allIt,fArray,dfArray,errGD)=GD(fGD,dfGD,x0,0.001,maxIt,fT,xT,True)
+GDres=(xMin, val, itersGD,alphaWasConst,a)
+print(GDres)
+
+
+graphErrors(Er1,Er2,Er3,errGD,iters1,iters2,iters3,itersGD)
