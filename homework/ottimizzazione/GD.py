@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-import funs as myFun
+#import funs as myFun
 
 
 def graph3Diters(x, y, z, traj,f):
@@ -40,7 +40,7 @@ def graphValsF(funVals, iters):
     funVals = np.array(funVals)
     
     plt.figure(figsize=(6,4))
-    plt.plot(range(iters), funVals[:iters], '.', color='blue', label='f(x)')
+    plt.plot(range(iters), funVals[:iters], '.', color='blue', label='f(x)',ms=2)
 
     plt.xlabel("Iterazioni")
     plt.ylabel("Valore")
@@ -53,7 +53,7 @@ def graphValsDF(gradVals, iters):
     gradNorms = np.array([np.linalg.norm(g) for g in gradVals])  # norma dei gradienti
 
     plt.figure(figsize=(6,4))
-    plt.plot(range(iters), gradNorms[:iters], '.', color='green', label='||∇f(x)||')
+    plt.plot(range(iters), gradNorms[:iters], '.', color='green', label='||∇f(x)||',ms=2)
 
     plt.xlabel("Iterazioni")
     plt.ylabel("Valore")
@@ -91,65 +91,29 @@ maxIt=10000
 fT=1.e-6
 xT=1.e-5
 
-def funF(x):
-    n = len(x)
-    idx=[]
-    for j in range(1,n+1): idx.append(j)
-    idx = np.array(idx)         # 1,2,...,n  (same length as x)
-    if np.any(x - idx <= 0):
-        return np.inf               # outside domain → reject
-    return np.sum((x - idx)**2) - np.sum(np.log(x))
+
+#---------------------------------------------funz. B
+xB = np.linspace(-2, 4, 200)
+yB = np.linspace(-2, 4, 200)
+XB, YB = np.meshgrid(xB, yB)
+ZB=(1-XB)**2 +100*((YB-(XB**2))**2)
+def funB(vector):
+    x,y=vector
+    return ((1-x)**2) +100*((y-(x**2))**2)
+
+def gradB(vector):
+    x,y=vector
+    grad=np.array([-2*(1-x)-400*x*(y-x**2) , 200*(y-x**2)])
+    return grad
 
 
-def gradF(x):
-    n = len(x)
-    idx=[]
-    for j in range(1,n+1): idx.append(j)
-    idx = np.array(idx)
-    if np.any(x - idx <= 0):
-        raise ValueError("Gradient undefined: x_k must be > k")
-    return 2*(x - idx) - 1/(x)
-
-fF  = lambda x: funF(x)
-dfF = lambda x: gradF(x)
-
-
-
-#xStar=(1.3660254,2.2247449,3.1583124,4.1213204,5.0980762)
-
-x0 = np.array([1.1,2.1,3.1,4.1,5.1]) # must satisfy x0[k] > k+1
-(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fF,dfF, x0, 0.001, maxIt, fT, xT, False)
+(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(funB, gradB, (0,2), 0.001, maxIt, fT, xT, True) 
 res=(xMin, val, iters,alphaWasConst,a)
 print(f"{res}")
 
 graphValsF(fArray,iters)
 graphValsDF(dfArray,iters)
 
-print("---------------------------------------------------")
-
-(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fF,dfF, x0, 0.001, maxIt, fT, xT, True)
-res=(xMin, val, iters,alphaWasConst,a)
-print(f"{res}")
-
-graphValsF(fArray,iters)
-graphValsDF(dfArray,iters)
-
-print("---------------------------------------------------")
-
-(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fF,dfF, x0, 0.005, maxIt, fT, xT, True)
-res=(xMin, val, iters,alphaWasConst,a)
-print(f"{res}")
-
-graphValsF(fArray,iters)
-graphValsDF(dfArray,iters)
-
-print("---------------------------------------------------")
-(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fF,dfF, x0, 0.1, maxIt, fT, xT, True)
-res=(xMin, val, iters,alphaWasConst,a)
-print(f"{res}")
-
-graphValsF(fArray,iters)
-graphValsDF(dfArray,iters)
 #graph2Diters(myFun.XA, myFun.YA, myFun.ZA, allIt)
 #graph3Diters(myFun.XA, myFun.YA, myFun.ZA, allIt, myFun.funA)
 
