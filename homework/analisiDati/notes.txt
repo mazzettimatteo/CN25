@@ -1,0 +1,25 @@
+1)
+
+  - Problema test: alphaTrue[i]=i^(1/2i)
+    a)  n=15,d=5
+            alphaTrue=[0.         1.         1.18920712 1.20093696 1.18920712 1.17461894]
+            (x = 3, y = 427.8863413103856)
+            Residuo: 5.102182707865937.
+            || X - U Sigma V^T || = 4.54337198488848e-15
+    b)  n=25, d=5
+            alphaTrue=[0.         1.         1.18920712 1.20093696 1.18920712 1.17461894]
+            (x = 3, y = 427.8863413103856)
+            Residuo: 10.775471992577947.
+            || X - U Sigma V^T || = 3.7033422731661385e-15
+    c)  n=15 d=10
+            alphaTrue=[0.         1.         1.18920712 1.20093696 1.18920712 1.174618941.16103667 1.14911673 1.13878863 1.12983096 1.12201845]
+            (x = 3, y = 99751.52315647443)
+            Residuo: 18.448758244434774.
+            || X - U Sigma V^T || = 2.6734552806306193e-15
+    d)  n=6, d=5
+            alphaTrue=[0.         1.         1.18920712 1.20093696 1.18920712 1.17461894]
+            (x = 3, y = 427.8863413103856)
+            Residuo: 7.905108844472133.
+            || X - U Sigma V^T || = 1.6138460343051586e-15
+
+  - Kaggle Dataset for Simple Linear regression: Salary Data https://www.kaggle.com/datasets/krishnaraj30/salary-prediction-data-simple-linear-regression?resource=download
