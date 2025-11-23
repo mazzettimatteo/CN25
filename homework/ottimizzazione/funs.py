@@ -49,23 +49,25 @@ def D(wantF,x):
 #-----------------------------------------funzF
 def funF(x):
     n = len(x)
-    idx = np.arange(1, n+1)         # 1,2,...,n  (same length as x)
+    idx=[]
+    for j in range(1,n+1): idx.append(j)
+    idx = np.array(idx)         # 1,2,...,n  (same length as x)
     if np.any(x - idx <= 0):
         return np.inf               # outside domain → reject
-    return np.sum((x - idx)**2) - np.sum(np.log(x - idx))
+    return np.sum((x - idx)**2) - np.sum(np.log(x))
 
 
 def gradF(x):
     n = len(x)
-    idx = np.arange(1, n+1)
+    idx=[]
+    for j in range(1,n+1): idx.append(j)
+    idx = np.array(idx)
     if np.any(x - idx <= 0):
         raise ValueError("Gradient undefined: x_k must be > k")
-    return 2*(x - idx) - 1/(x - idx)
+    return 2*(x - idx) - 1/(x)
 
-f  = lambda x: funF(x)
-df = lambda x: gradF(x)
-
-x0 = np.array([2., 3., 4., 5.]) # must satisfy x0[k] > k+1
+fF  = lambda x: funF(x)
+dfF = lambda x: gradF(x)
 
 
 
