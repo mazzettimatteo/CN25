@@ -40,7 +40,7 @@ def graphValsF(funVals, iters):
     funVals = np.array(funVals)
     
     plt.figure(figsize=(6,4))
-    plt.plot(range(iters), funVals[:iters], '.', color='blue', label='f(x)')
+    plt.plot(range(iters), funVals[:iters], '.', color='blue', label='f(x)',ms=2)
 
     plt.xlabel("Iterazioni")
     plt.ylabel("Valore")
@@ -53,7 +53,7 @@ def graphValsDF(gradVals, iters):
     gradNorms = np.array([np.linalg.norm(g) for g in gradVals])  # norma dei gradienti
 
     plt.figure(figsize=(6,4))
-    plt.plot(range(iters), gradNorms[:iters], '.', color='green', label='||∇f(x)||')
+    plt.plot(range(iters), gradNorms[:iters], '.', color='green', label='||∇f(x)||',ms=2)
 
     plt.xlabel("Iterazioni")
     plt.ylabel("Valore")
@@ -91,6 +91,11 @@ maxIt=10000
 fT=1.e-6
 xT=1.e-5
 
+<<<<<<< HEAD
+=======
+
+#---------------------------------------------funz. B
+>>>>>>> 96bb6bdcca32b573ec3e9b2607c09ef58d858e2e
 xB = np.linspace(-2, 4, 200)
 yB = np.linspace(-2, 4, 200)
 XB, YB = np.meshgrid(xB, yB)
@@ -98,15 +103,27 @@ ZB=(1-XB)**2 +100*((YB-(XB**2))**2)
 def funB(vector):
     x,y=vector
     return ((1-x)**2) +100*((y-(x**2))**2)
+<<<<<<< HEAD
+=======
+
+def gradB(vector):
+    x,y=vector
+    grad=np.array([-2*(1-x)-400*x*(y-x**2) , 200*(y-x**2)])
+    return grad
+>>>>>>> 96bb6bdcca32b573ec3e9b2607c09ef58d858e2e
 
 def gradB(vector):
     x,y=vector
     grad=np.array([-2*(1-x)-400*x*(y-x**2) , 200*(y-x**2)])
     return grad
 
+<<<<<<< HEAD
 x0=(0.0,0.0)
 
 (xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(funB,gradB, x0, 0.0010, maxIt, fT, xT, True)
+=======
+(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(funB, gradB, (0,2), 0.001, maxIt, fT, xT, True) 
+>>>>>>> 96bb6bdcca32b573ec3e9b2607c09ef58d858e2e
 res=(xMin, val, iters,alphaWasConst,a)
 print(f"{res}")
 
