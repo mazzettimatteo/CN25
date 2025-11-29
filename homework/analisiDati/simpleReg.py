@@ -33,14 +33,17 @@ def f(x, alpha):
 
 dataSet=pd.read_csv("dataSets/Salary_Data.csv")
 
-print(f"prime 5 righe dataset:\n{dataSet.head()}")
+print(f"Head dataset: \n{dataSet.head()}")
+#print(f"Info datset: \n {dataSet.info()}")
+print(f"Descrizione dataset:\n{dataSet.describe()}")
 
 xRaw=dataSet["YearsExperience"].values
 yRaw=dataSet["Salary"].values
 
-print(f"numero righe:{yRaw.shape[0]}")
+print(f"Numero di righe:{yRaw.shape[0]}")
 
-d=5
+
+d=5#-----------------------------------------------------------PARAM DA CAMBIARE
 
 X=vandermonde(xRaw,d)
 
@@ -51,9 +54,9 @@ xMax=xRaw.max()
 xx=np.linspace(xMin-1, xMax+1,10000)
 yy=f(xx,alphaSVD)
 
-plt.plot(xx,yy,'b')
+plt.plot(xx,yy,'g')
 plt.plot(xRaw, yRaw,'ro')
-plt.xlabel("Anni di esperienza")
-plt.ylabel("Salario")
+plt.xlabel("Esperienza (Y)")
+plt.ylabel("Salario (USD)")
 plt.grid()
 plt.show()

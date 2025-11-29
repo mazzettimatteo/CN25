@@ -1,25 +1,31 @@
-1)
+1.1)Problema test: alphaTrue[i]=i^(1/2i)
+a) x=3, n=6, d=5
+alphaTrue=[0.         1.         1.18920712 1.20093696 1.18920712 1.17461894]
+(x=3, f(x)=y=427.8863413103856)
+ResiduoSVD: 5.1038709474956296e-14.
+ResiduoTRUE: 0.20034206385514466.
 
-  - Problema test: alphaTrue[i]=i^(1/2i)
-    a)  n=15,d=5
-            alphaTrue=[0.         1.         1.18920712 1.20093696 1.18920712 1.17461894]
-            (x = 3, y = 427.8863413103856)
-            Residuo: 5.102182707865937.
-            || X - U Sigma V^T || = 4.54337198488848e-15
-    b)  n=25, d=5
-            alphaTrue=[0.         1.         1.18920712 1.20093696 1.18920712 1.17461894]
-            (x = 3, y = 427.8863413103856)
-            Residuo: 10.775471992577947.
-            || X - U Sigma V^T || = 3.7033422731661385e-15
-    c)  n=15 d=10
-            alphaTrue=[0.         1.         1.18920712 1.20093696 1.18920712 1.174618941.16103667 1.14911673 1.13878863 1.12983096 1.12201845]
-            (x = 3, y = 99751.52315647443)
-            Residuo: 18.448758244434774.
-            || X - U Sigma V^T || = 2.6734552806306193e-15
-    d)  n=6, d=5
-            alphaTrue=[0.         1.         1.18920712 1.20093696 1.18920712 1.17461894]
-            (x = 3, y = 427.8863413103856)
-            Residuo: 7.905108844472133.
-            || X - U Sigma V^T || = 1.6138460343051586e-15
+b) x=3, n=10, d=2
+alphaTrue=[0.         1.         1.18920712]
+(x=3, f(x)=y=13.70286403502449)
+ResiduoSVD: 0.1086352499303631.
+ResiduoTRUE: 0.2679803924132402.
 
-  - Kaggle Dataset for Simple Linear regression: Salary Data https://www.kaggle.com/datasets/krishnaraj30/salary-prediction-data-simple-linear-regression?resource=download
+c) x=3, n=10, d=5
+alphaTrue=[0.         1.         1.18920712 1.20093696 1.18920712 1.17461894]
+(x=3, f(x)=y=427.8863413103856)
+ResiduoSVD: 0.22701582110711566.
+ResiduoTRUE: 0.4252414548545332.
+
+d) x=3, n=15, d=8
+alphaTrue=[0.         1.         1.18920712 1.20093696 1.18920712 1.17461894 1.16103667 1.14911673 1.13878863]
+(x=3, f(x)=y=11258.99258576214)
+ResiduoSVD: 0.1796314890672186.
+ResiduoTRUE: 0.3876815795154283.
+
+
+
+1.2)Kaggle Dataset for Simple Linear regression: "dataSets/Salary_Data.csv" https://www.kaggle.com/datasets/krishnaraj30/salary-prediction-data-simple-linear-regression?resource=download
+a)d=5
+b)d=10
+c)d=3
