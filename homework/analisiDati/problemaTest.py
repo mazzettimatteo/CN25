@@ -70,19 +70,19 @@ def residue(X,y,alpha):
 alpha = np.random.randn(d+1)
 print(f"Residuo: {residue(X, y, alpha)}.")
 
-#calcoliamo la SVD di X
+def SVD(X,y,d):
+    #n numero punti, d=grado polinomio
+    n=y.shape[0]
+    U,s,Vt=np.linalg.svd(X) #X=U@Sigma@V
+    Sigma=np.zeros((n,d+1)) #creazione di Sigma con val singolari sulla diag
+    for i in range(d+1):
+        Sigma[i,i]=s[i]
+    alphaSVD=np.zeros((d+1,)) #alpha=sum ((u_i^T y)/s_i) v_i
+    for i in range(d+1):
+        alphaSVD+=(U[:,i].T @ y)/s[i]*Vt[i,:]
+    return alphaSVD
 
-U,s,Vt = np.linalg.svd(X) #s è sigma minuscolo, 
-
-Sigma=np.zeros((n,d+1))
-for i in range(d+1):
-    Sigma[i,i]=s[i]
-print(f"|| X - U Sigma V^T || = {np.linalg.norm(X - U @ Sigma @ Vt)}")
-
-#soluzione alphaSVD
-alphaSVD=np.zeros((d+1,))
-for i in range(d+1):
-    alphaSVD+=(U[:,i].T @ y)/s[i]*Vt[i,:]#????????????????
+alphaSVD=SVD(X,y,d)
 
 # Rappresentiamo tutte le soluzioni su grafico
 xx = np.linspace(0, 1, 100)
