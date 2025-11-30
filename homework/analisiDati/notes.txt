@@ -23,9 +23,10 @@ alphaTrue=[0.         1.         1.18920712 1.20093696 1.18920712 1.17461894 1.1
 ResiduoSVD: 0.1796314890672186.
 ResiduoTRUE: 0.3876815795154283.
 
-
-
 1.2)Kaggle Dataset for Simple Linear regression: "dataSets/Salary_Data.csv" https://www.kaggle.com/datasets/krishnaraj30/salary-prediction-data-simple-linear-regression?resource=download
 a)d=5
 b)d=10
 c)d=3
+
+
+2) MULTIPLE REG
