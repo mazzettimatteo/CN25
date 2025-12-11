@@ -131,8 +131,7 @@ def funF(x):
     idx=[]
     for j in range(1,n+1): idx.append(j)
     idx = np.array(idx)         # 1,2,...,n stessa dim di x
-    if np.any(x - idx <= 0):
-        return np.inf               #reject cause outside domain 
+
     return sum((x - idx)**2) - sum(np.log(x))
 
 
@@ -145,43 +144,12 @@ def gradFstoc(x,i):
 fF  = lambda x: funF(x)
 dfF = lambda x,i: gradFstoc(x,i)
 
-maxIt=10000
-fT=1.e-6
-xT=1.e-5
-maxEp=150
-
-#xStar=(1.3660254,2.2247449,3.1583124,4.1213204,5.0980762, ecc)
-
-x0 = np.ones(5) 
-
-batchSize=2
-(xMin, val, epoche, iters1,a,allIt,fArray,dfArray,Er1)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
-res=(xMin, val,a)
-print(f"{res}")
-print(f"epoche:{epoche}, itersTot={iters1}")
-print("----------------------------------------")
-batchSize=3
-(xMin, val, epoche, iters2,a,allIt,fArray,dfArray,Er2)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
-res=(xMin, val,a)
-print(f"{res}")
-print(f"epoche:{epoche}, itersTot={iters2}")
-print("----------------------------------------")
-batchSize=1
-(xMin, val, epoche, iters3,a,allIt,fArray,dfArray,Er3)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
-res=(xMin, val,a)
-print(f"{res}")
-print(f"epoche:{epoche}, itersTot={iters3}")
-print("----------------------------------------")
-
-
 
 def GDfunF(x):
     n = len(x)
     idx=[]
     for j in range(1,n+1): idx.append(j)
-    idx = np.array(idx)         
-    if np.any(x - idx <= 0):
-        return np.inf               
+    idx = np.array(idx)                     
     return np.sum((x - idx)**2) - np.sum(np.log(x))
 
 
@@ -194,6 +162,39 @@ def GDgradF(x):
 
 fGD  = lambda x: GDfunF(x)
 dfGD = lambda x: GDgradF(x)
+
+
+maxIt=10000
+fT=1.e-6
+xT=1.e-5
+maxEp=150
+
+#xStar=(1.3660254,2.2247449,3.1583124,4.1213204,5.0980762, ecc)
+
+x0 = np.ones(5) 
+
+batchSize=2
+(xMin, val, epoche, iters1,a,allIt,fArray,dfArray,Er1)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
+res=(xMin, fGD(xMin),a)
+print(f"{res}")
+print(f"epoche:{epoche}, itersTot={iters1}")
+print("----------------------------------------")
+batchSize=3
+(xMin, val, epoche, iters2,a,allIt,fArray,dfArray,Er2)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
+res=(xMin, fGD(xMin),a)
+print(f"{res}")
+print(f"epoche:{epoche}, itersTot={iters2}")
+print("----------------------------------------")
+batchSize=1
+(xMin, val, epoche, iters3,a,allIt,fArray,dfArray,Er3)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
+res=(xMin, fGD(xMin),a)
+print(f"{res}")
+print(f"epoche:{epoche}, itersTot={iters3}")
+print("----------------------------------------")
+
+
+
+
 
 print("------------------------------GD------------------------------")
 (xMin, val, itersGD,alphaWasConst,a,allIt,fArray,dfArray,errGD)=GD(fGD,dfGD,x0,0.001,maxIt,fT,xT,True)
