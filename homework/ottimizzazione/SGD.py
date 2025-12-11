@@ -68,9 +68,9 @@ def GD(f,df,x0,alpha,maxIt,fToll,xToll,alphaConst):    #f:R^n->R
         temp=np.linalg.norm(x0 - xTrue)/np.linalg.norm(xTrue)#-------------------------------
         err.append(temp)
 
-        allIters.append(x0.copy())
-        fVals.append(f(x0).copy())
-        dfVals.append(df(x0).copy())
+        allIters.append(x0)
+        fVals.append(f(x0))
+        dfVals.append(df(x0))
 
         dfNorm=np.linalg.norm(df(x0))
         cont+=1
@@ -92,7 +92,7 @@ def SGD (f,df,x0,maxEpoche,maxIt,fToll,xToll,alpha,k):
     fVals=[np.array(f(x0))] 
     
     batch = S_k[:k]
-    dfVals = [np.sum(df(x0, j) for j in batch)]
+    dfVals = [np.sum([df(x0, j) for j in batch], axis=0)]
 
     dfNorm=np.linalg.norm(dfVals[-1])
 
@@ -101,7 +101,7 @@ def SGD (f,df,x0,maxEpoche,maxIt,fToll,xToll,alpha,k):
         for i in range(0,n,k):
             batch=S_k[i:i+k]
             
-            p=-np.sum([df(x0, j) for j in batch])
+            p=-np.sum([df(x0, j) for j in batch], axis=0)
 
             xNew=x0+alpha*p            
 
@@ -111,8 +111,8 @@ def SGD (f,df,x0,maxEpoche,maxIt,fToll,xToll,alpha,k):
             x0=xNew
             cont+=1
 
-            allIters.append(x0.copy())
-            fVals.append(f(x0).copy())
+            allIters.append(x0)
+            fVals.append(f(x0))
             dfVals.append(p)
             
             temp=np.linalg.norm(x0 - xTrue)/np.linalg.norm(xTrue)
@@ -130,9 +130,9 @@ def funF(x):
     n = len(x)
     idx=[]
     for j in range(1,n+1): idx.append(j)
-    idx = np.array(idx)         # 1,2,...,n  (same length as x)
+    idx = np.array(idx)         # 1,2,...,n stessa dim di x
     if np.any(x - idx <= 0):
-        return np.inf               # outside domain → reject
+        return np.inf               #reject cause outside domain 
     return sum((x - idx)**2) - sum(np.log(x))
 
 
@@ -146,13 +146,13 @@ fF  = lambda x: funF(x)
 dfF = lambda x,i: gradFstoc(x,i)
 
 maxIt=10000
-fT=1.e-10
+fT=1.e-6
 xT=1.e-5
-maxEp=100
+maxEp=150
 
-#xStar=(1.3660254,2.2247449,3.1583124,4.1213204,5.0980762)
+#xStar=(1.3660254,2.2247449,3.1583124,4.1213204,5.0980762, ecc)
 
-x0 = np.array([1.1,2.1,3.1,4.1,5.1]) # must satisfy x0[k] > k+1
+x0 = np.ones(5) 
 
 batchSize=2
 (xMin, val, epoche, iters1,a,allIt,fArray,dfArray,Er1)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
@@ -166,7 +166,7 @@ res=(xMin, val,a)
 print(f"{res}")
 print(f"epoche:{epoche}, itersTot={iters2}")
 print("----------------------------------------")
-batchSize=4
+batchSize=1
 (xMin, val, epoche, iters3,a,allIt,fArray,dfArray,Er3)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
 res=(xMin, val,a)
 print(f"{res}")
@@ -179,9 +179,9 @@ def GDfunF(x):
     n = len(x)
     idx=[]
     for j in range(1,n+1): idx.append(j)
-    idx = np.array(idx)         # 1,2,...,n  (same length as x)
+    idx = np.array(idx)         
     if np.any(x - idx <= 0):
-        return np.inf               # outside domain → reject
+        return np.inf               
     return np.sum((x - idx)**2) - np.sum(np.log(x))
 
 
@@ -190,8 +190,6 @@ def GDgradF(x):
     idx=[]
     for j in range(1,n+1): idx.append(j)
     idx = np.array(idx)
-    if np.any(x - idx <= 0):
-        raise ValueError("Gradient undefined: x_k must be > k")
     return 2*(x - idx) - 1/(x)
 
 fGD  = lambda x: GDfunF(x)
