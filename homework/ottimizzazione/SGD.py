@@ -167,7 +167,7 @@ dfGD = lambda x: GDgradF(x)
 maxIt=10000
 fT=1.e-6
 xT=1.e-5
-maxEp=150
+maxEp=800
 
 #xStar=(1.3660254,2.2247449,3.1583124,4.1213204,5.0980762, ecc)
 
