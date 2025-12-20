@@ -171,21 +171,21 @@ maxEp=800
 
 #xStar=(1.3660254,2.2247449,3.1583124,4.1213204,5.0980762, ecc)
 
-x0 = np.ones(5) 
+x0 = np.zeros(70) 
 
-batchSize=2
-(xMin, val, epoche, iters1,a,allIt,fArray,dfArray,Er1)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
+batchSize=3
+(xMin, val, epoche, iters1,a,allIt,fArray,dfArray,Er1)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.005,batchSize)
 res=(xMin, fGD(xMin),a)
 print(f"{res}")
 print(f"epoche:{epoche}, itersTot={iters1}")
 print("----------------------------------------")
-batchSize=3
-(xMin, val, epoche, iters2,a,allIt,fArray,dfArray,Er2)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
+batchSize=7
+(xMin, val, epoche, iters2,a,allIt,fArray,dfArray,Er2)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.005,batchSize)
 res=(xMin, fGD(xMin),a)
 print(f"{res}")
 print(f"epoche:{epoche}, itersTot={iters2}")
 print("----------------------------------------")
-batchSize=1
+batchSize=10
 (xMin, val, epoche, iters3,a,allIt,fArray,dfArray,Er3)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.001,batchSize)
 res=(xMin, fGD(xMin),a)
 print(f"{res}")
@@ -197,7 +197,7 @@ print("----------------------------------------")
 
 
 print("------------------------------GD------------------------------")
-(xMin, val, itersGD,alphaWasConst,a,allIt,fArray,dfArray,errGD)=GD(fGD,dfGD,x0,0.001,maxIt,fT,xT,True)
+(xMin, val, itersGD,alphaWasConst,a,allIt,fArray,dfArray,errGD)=GD(fGD,dfGD,x0,0.005,maxIt,fT,xT,True)
 GDres=(xMin, val, itersGD,alphaWasConst,a)
 print(GDres)
 
