@@ -40,41 +40,11 @@ tolx = 1e-8
 
 #creo griglia per lambda
 
-lambdaVals=np.logspace(-5,-0.5,20)
-errs=[]
-reconstructedImgs=[]
-
-print(f"Ricerca di lambda che minimizzi l'errore usano i possibili valori:{lambdaVals}")
-
-
-for i,lmbda in enumerate(lambdaVals):
-    x_TV, obj_val, grad_norm = gd_tv_solver.solve(y_delta, lmbda, x0, kmax, tolf, tolx)
-    relErr=utilities.rel_err(x_TV,x)
-    errs.append(relErr)
-    reconstructedImgs.append(x_TV)
-    
-#ricerca lambda che minimizza:
-
-bestIndex=np.argmin(errs)
-bestLmbda=lambdaVals[bestIndex]
-bestImg=reconstructedImgs[bestIndex]
-bestError=errs[bestIndex]
-    
-print(f"Miglior lambda = {bestLmbda} con bestError = {bestError}")
-
-
-#grafico errore
-
-plt.semilogx(lambdaVals, errs,'b-', label='Error')
-plt.semilogx(bestLmbda,bestError,'r.',markersize=15,label="Best")
-plt.title("Andamento dell'errore")
-plt.show()
-
-
-
+bestImg, obj_val, grad_norm = gd_tv_solver.solve(y_delta, 0.0001, x0, kmax, tolf, tolx)
+   
 
 # Visualizzazione ricostruzione
-plt.figure(figsize=(10, 4))
+
 
 plt.imshow(x, cmap="gray")
 plt.axis("off")
@@ -93,7 +63,3 @@ plt.show()
 
 
 
-#metriche di errore per bestImg
-print('ER',utilities.rel_err(bestImg,x))
-print('PSNR',utilities.psnr(bestImg,x))
-print('SSIM',utilities.ssim(bestImg,x))
