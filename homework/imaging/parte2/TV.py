@@ -17,12 +17,12 @@ x = x / x.max()
 
 
 # Definizione kernel di blur e operatore associato
-kernel = utilities.gaussian2d_kernel(k=11, sigma=3.5)
+kernel = utilities.gaussian2d_kernel(k=7, sigma=2)
 A = operators.ConvolutionOperator(kernel)
 
 # Sfocatura dell'immagine e aggiunta di rumore
 y = A(x)
-y_delta = y + utilities.gaussian_noise(y, noise_level=0.05)
+y_delta = y + utilities.gaussian_noise(y, noise_level=0.025)
 
 
 # Calcolo soluzione regolarizzata con Total Variation 
@@ -60,7 +60,7 @@ bestLmbda=lambdaVals[bestIndex]
 bestImg=reconstructedImgs[bestIndex]
 bestError=errs[bestIndex]
     
-print(f"Miglior lambda = {bestLmbda} con bestError = {bestError}")
+print(f"Miglior lambda = {bestLmbda} con bestError = {bestError} bestIndex = {bestIndex}")
 
 
 #grafico errore
