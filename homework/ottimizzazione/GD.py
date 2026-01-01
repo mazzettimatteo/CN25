@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-#import funs as myFun
+
 
 
 def graph3Diters(x, y, z, traj,f):
@@ -106,29 +106,52 @@ def gradF(x):
     idx=[]
     for j in range(1,n+1): idx.append(j)
     idx = np.array(idx)
-    """
-    if np.any(x - idx <= 0):
-        raise ValueError("Gradient undefined: x_k must be > k")
-    """
+   
     return 2*(x - idx) - 1/(x)
 
 fF  = lambda x: funF(x)
 dfF = lambda x: gradF(x)
 
-
-
 #xStar=(1.3660254,2.2247449,3.1583124,4.1213204,5.0980762)
 
 x0 = np.array([1,1,1,1,1]) 
 
+##############################################################################################################################################
+def make_D(A):
+    def D(wantF, x):
+        n=len(x)
+        oneVect=np.ones(n)
+        b=A @ oneVect
 
-(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fF,dfF, x0, 0.001, maxIt, fT, xT, True)
+        normContent=(A @ x)-b
+
+        funz=0.5*(np.linalg.norm(normContent)**2)
+        grad=A.T @ ((A @ x) - b)
+
+        return funz if wantF else grad
+    return D
+
+n = 5
+A = np.random.rand(n,n)
+Dfun = make_D(A)
+
+fD  = lambda x: Dfun(True,  x)
+dfD = lambda x: Dfun(False, x)
+
+x0=np.array( [-0.20281018,  0.21978563, -0.40081749, -0.86387318, -0.03894452])
+##############################################################################################################################################
+
+
+
+
+
+(xMin, val, iters,alphaWasConst,a,allIt,fArray,dfArray)=GD(fD,dfD, x0, 0.001, maxIt, fT, xT, False)
 res=(xMin, val, iters,alphaWasConst,a)
 print(f"{res}")
 
 graphValsF(fArray,iters)
 graphValsDF(dfArray,iters)
 
-#graph2Diters(myFun.XA, myFun.YA, myFun.ZA, allIt)
-#graph3Diters(myFun.XA, myFun.YA, myFun.ZA, allIt, myFun.funA)
+#graph2Diters(XA, YA, ZA, allIt)
+#graph3Diters(XA, YA, ZA, allIt, funA)
 

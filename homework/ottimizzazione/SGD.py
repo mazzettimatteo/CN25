@@ -171,7 +171,7 @@ maxEp=800
 
 #xStar=(1.3660254,2.2247449,3.1583124,4.1213204,5.0980762, ecc)
 
-x0 = np.zeros(70) 
+x0 = np.ones(70) 
 
 batchSize=3
 (xMin, val, epoche, iters1,a,allIt,fArray,dfArray,Er1)=SGD(fF,dfF,x0,maxEp,maxIt,fT,xT,0.005,batchSize)

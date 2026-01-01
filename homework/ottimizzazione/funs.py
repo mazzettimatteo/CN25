@@ -45,8 +45,9 @@ def D(wantF,x):
     output=funz if wantF else grad
     return output
 
+#-----------------------------------------funzF per GD
 
-#-----------------------------------------funzF
+
 def funF(x):
     n = len(x)
     idx=[]
@@ -62,35 +63,48 @@ def gradF(x):
     idx=[]
     for j in range(1,n+1): idx.append(j)
     idx = np.array(idx)
-    if np.any(x - idx <= 0):
-        raise ValueError("Gradient undefined: x_k must be > k")
+
     return 2*(x - idx) - 1/(x)
 
+
+
+
+
+
+#-----------------------------------------funzF per SGD
+def funF(x):
+    n = len(x)
+    idx=[]
+    for j in range(1,n+1): idx.append(j)
+    idx = np.array(idx)         # 1,2,...,n stessa dim di x
+
+    return sum((x - idx)**2) - sum(np.log(x))
+
+
+def gradFstoc(x,i):
+    n = len(x)
+    grad=np.zeros_like(x)
+    grad[i]=2*(x[i]-(i+1)) - 1/(x[i])
+    return grad
+
 fF  = lambda x: funF(x)
-dfF = lambda x: gradF(x)
+dfF = lambda x,i: gradFstoc(x,i)
 
 
+def GDfunF(x):
+    n = len(x)
+    idx=[]
+    for j in range(1,n+1): idx.append(j)
+    idx = np.array(idx)                     
+    return np.sum((x - idx)**2) - np.sum(np.log(x))
 
-#-------------------------------------------------funzDstoc
-def makeD(A):
-    b=A@np.ones(A.shape[1])
 
-    def f(x, batch):
-        ABatch=A[batch, :]
-        bBatch=b[batch]
-        residue=ABatch@x - bBatch
-        
-        return 0.5*(np.linalg.norm(residue))**2
-    
-    def df(x, batch):
-        ABatch=A[batch, :]
-        bBatch=b[batch]
-        residue=ABatch@x-bBatch
+def GDgradF(x):
+    n = len(x)
+    idx=[]
+    for j in range(1,n+1): idx.append(j)
+    idx = np.array(idx)
+    return 2*(x - idx) - 1/(x)
 
-        return ABatch.T@residue
-    
-    return f,df
-
-Dstoc=makeD(A)
-
-fDstoc,dfDstoc=Dstoc
+fGD  = lambda x: GDfunF(x)
+dfGD = lambda x: GDgradF(x)
