@@ -1,7 +1,93 @@
-1)
-2)
-3.1)Total Variation gaussian2d_kernel(k=11, sigma=3.5)
-    a)
+1)CGLS
+    a) kmax=30 noiseLevel=0.05 gaussian2d_kernel(k=11, sigma=3.5)
+    ER 0.5526840988788954
+    PSNR 8.99533240405611
+    SSIM 0.11652658525104359  
+    b) kmax=30 noiseLevel=0.1 gaussian2d_kernel(k=11, sigma=3.5)
+    ER 1.150395334612094
+    PSNR 2.6279295644348375
+    SSIM 0.09340786062118511
+    c) kmax=30 noiseLevel=0.025 gaussian2d_kernel(k=11, sigma=3.5)
+    ER 0.2633299693463085
+    PSNR 15.434866028318428
+    SSIM 0.18777693472990542
+    d) kmax=30 noiseLevel=0.05 gaussian2d_kernel(k=7, sigma=2)
+    ER 0.6803169799003682
+    PSNR 7.19064558859978
+    SSIM 0.10283801810875974
+    e) kmax=30 noiseLevel=0.1 gaussian2d_kernel(k=7, sigma=2)
+    ER 1.3903208494109554
+    PSNR 0.9825710891374495
+    SSIM 0.08145145125558878
+    f) kmax=30 noiseLevel=0.025 gaussian2d_kernel(k=7, sigma=2)
+    ER 0.32686701980093863
+    PSNR 13.557449732253279
+    SSIM 0.1711491939706887 
+    g) kmax=50 noiseLevel=0.05 gaussian2d_kernel(k=11, sigma=3.5)
+    ER 0.8648559122005423
+    PSNR 5.105996627512975
+    SSIM 0.0980697768340959
+    h) kmax=150 noiseLevel=0.05 gaussian2d_kernel(k=11, sigma=3.5)
+    ER 2.509269585430413
+    PSNR -4.146074652120268
+    SSIM 0.07073271082152538
+2) TIKHONOV
+    lambdaVals=np.logspace(-3,1.5,20)=
+    [1.00000000e-03 1.72521055e-03 2.97635144e-03 5.13483291e-03
+     8.85866790e-03 1.52830673e-02 2.63665090e-02 4.54877795e-02
+     7.84759970e-02 1.35387618e-01 2.33572147e-01 4.02961132e-01
+     6.95192796e-01 1.19935395e+00 2.06913808e+00 3.56969885e+00
+     6.15848211e+00 1.06246783e+01 1.83298071e+01 3.16227766e+01]
+    a) gaussian_noise(y, noise_level=0.05) gaussian2d_kernel(k=11, sigma=3.5)
+    Norma del rumore (Target Discrepanza): 31.0890752487155
+    Miglior lambda (Min Error) = 0.13538761800225432 con Error = 0.12317500740482173
+    Miglior lambda (Discrepanza) = 0.13538761800225432 con Residuo = 32.355406588841824 (Target: 31.399966001202653)
+    Metriche per soluzione da Discrepanza:
+    ER 0.12317500740482173
+    PSNR 22.034419858859668
+    SSIM 0.5570311953058618
+    b) gaussian_noise(y, noise_level=0.1) gaussian2d_kernel(k=11, sigma=3.5)
+    Norma del rumore (Target Discrepanza): 62.178150497431
+    Miglior lambda (Min Error) = 0.23357214690901212 con Error = 0.13711308430667357
+    Miglior lambda (Discrepanza) = 0.13538761800225432 con Residuo = 61.47090256116042 (Target: 62.799932002405306)
+    Metriche per soluzione da Discrepanza:
+    ER 0.14577992100848555
+    PSNR 20.570917588598107
+    SSIM 0.35828359138142124
+    c) gaussian_noise(y, noise_level=0.025) gaussian2d_kernel(k=11, sigma=3.5)
+    Norma del rumore (Target Discrepanza): 15.544537624357753
+    Miglior lambda (Min Error) = 0.13538761800225432 con Error = 0.11685869436171191
+    Miglior lambda (Discrepanza) = 0.07847599703514611 con Residuo = 15.433426883617425 (Target: 15.69998300060133)
+    Metriche per soluzione da Discrepanza:
+    ER 0.11730388991833358
+    PSNR 22.45862351979003
+    SSIM 0.5408679217320684
+    d) gaussian_noise(y, noise_level=0.05) gaussian2d_kernel(k=7, sigma=2)
+    Norma del rumore (Target Discrepanza): 31.177110908485183
+    Miglior lambda (Min Error) = 0.13538761800225432 con Error = 0.1121742420035512
+    Miglior lambda (Discrepanza) = 0.13538761800225432 con Residuo = 31.34659260515342 (Target: 31.488882017570035)
+    Metriche per soluzione da Discrepanza:
+    ER 0.1121742420035512
+    PSNR 22.84700892893516
+    SSIM 0.5193850456216745
+    e) gaussian_noise(y, noise_level=0.1) gaussian2d_kernel(k=7, sigma=2)
+    Norma del rumore (Target Discrepanza): 62.97776403514008
+    Miglior lambda (Min Error) = 0.23357214690901212 con Error = 0.12881541276126093
+    Miglior lambda (Discrepanza) = 0.13538761800225432 con Residuo = 59.3523531719759 (Target: 62.97776403514008)
+    Metriche per soluzione da Discrepanza:
+    ER 0.15364260338418387
+    PSNR 20.114638651525013
+    SSIM 0.3017651367301026
+    f) gaussian_noise(y, noise_level=0.025) gaussian2d_kernel(k=7, sigma=2)
+    Norma del rumore (Target Discrepanza): 15.588555454242599
+    Miglior lambda (Min Error) = 0.13538761800225432 con Error = 0.09924981785693233
+    Miglior lambda (Discrepanza) = 0.07847599703514611 con Residuo = 14.761913406944076 (Target: 15.744441008785024)
+    Metriche per soluzione da Discrepanza:
+    ER 0.10650540270011072
+    PSNR 23.29743902412263
+    SSIM 0.5295489724330185
+3)
+    a) Total Variation gaussian2d_kernel(k=11, sigma=3.5)
     NoiseLevel=0.05
     lambdaVals=np.logspace(-5,-0.5,20)=
     [1.00000000e-05 1.72521055e-05 2.97635144e-05 5.13483291e-05
@@ -13,7 +99,7 @@
     ER 0.11999160983407642
     PSNR 22.26185420070143
     SSIM 0.6576896402804624
-    b)
+    b) Total Variation gaussian2d_kernel(k=11, sigma=3.5)
     NoiseLevel=0.1
     lambdaVals=np.logspace(-5,-0.5,20)=
     [1.00000000e-05 1.72521055e-05 2.97635144e-05 5.13483291e-05
@@ -25,7 +111,7 @@
     ER 0.12652859911462186
     PSNR 21.80109780610878
     SSIM 0.6189148824705564
-     c)
+     c) Total Variation gaussian2d_kernel(k=11, sigma=3.5)
      NoiseLevel=0.025
      lambdaVals=np.logspace(-5,-0.5,20)=
     [1.00000000e-05 1.72521055e-05 2.97635144e-05 5.13483291e-05
@@ -37,8 +123,8 @@
      ER 0.116269875723798
     PSNR 22.53552763464253
     SSIM 0.7580857905418152
-3.2)Total Variation gaussian2d_kernel(k=7, sigma=2)
-    d)
+    
+    d) Total Variation gaussian2d_kernel(k=7, sigma=2)
     NoiseLevel=0.05
     lambdaVals=np.logspace(-5,-0.5,20)=
     [1.00000000e-05 1.72521055e-05 2.97635144e-05 5.13483291e-05
@@ -50,7 +136,7 @@
     ER 0.10440763764620617
     PSNR 23.47022641164142
     SSIM 0.6848186241647743
-    e)
+    e) Total Variation gaussian2d_kernel(k=7, sigma=2)
     NoiseLevel=0.1
     lambdaVals=np.logspace(-5,-0.5,20)=
     [1.00000000e-05 1.72521055e-05 2.97635144e-05 5.13483291e-05
@@ -62,7 +148,8 @@
     ER 0.11318126695706472
     PSNR 22.769380777125253
     SSIM 0.6423325012380248
-    f)NoiseLevel=0.025
+    f) Total Variation gaussian2d_kernel(k=7, sigma=2)
+    NoiseLevel=0.025
      lambdaVals=np.logspace(-5,-0.5,20)=
     [1.00000000e-05 1.72521055e-05 2.97635144e-05 5.13483291e-05
      8.85866790e-05 1.52830673e-04 2.63665090e-04 4.54877795e-04
