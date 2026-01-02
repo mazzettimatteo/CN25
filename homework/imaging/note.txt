@@ -1,5 +1,5 @@
 1) ImmagineOriginaleBW: spa peso=165KB
-    a)p=20 Errore relativo = 0.1974904789407892 Fattore di compressione = 0.01389854065323141 PesoImmagine = 116KB
-    b)p=100 Errore relativo = 0.13616883194908386 Fattore di compressione = 0.06949270326615706 PesoImmagine = 144KB
-    c)p=500 Errore relativo = 0.051427370290590114 Fattore di compressione = 0.34746351633078526 PesoImmagine = 156KB
-    d)p=1 Errore relativo = 0.40175778171716614 Fattore di compressione = 0.0006949270326615705 PesoImmagine = 74KB
+    a)p=20 Errore relativo = 0.1974904789407892 Fattore di compressione = 71.95 PesoImmagine = 116KB
+    b)p=100 Errore relativo = 0.13616883194908386 Fattore di compressione = 14.389999999999999 PesoImmagine = 144KB
+    c)p=500 Errore relativo = 0.051427370290590114 Fattore di compressione = 2.878 PesoImmagine = 156KB 
+    d)p=1 Errore relativo = 0.40175778171716614 Fattore di compressione = 1439.0 PesoImmagine = 74KB 

@@ -30,7 +30,7 @@ x_p = U_p @ S_p @ Vt_p
 
 
 Er=utilities.rel_err(x_p,x)
-c_p=p/(min(nx,ny)-1)
+c_p=((1/p)*min(nx,ny))-1
 
 print(f"Errore relativo = {Er}")
 print(f"Fattore di compressione = {c_p}")
